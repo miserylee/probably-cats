@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f7f2">
+  <link rel="icon" href="data:,">
+  <title>猫咪外观实验室 · 深空猫舍</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="vendor/three.min.js" defer></script>
+  <script src="art/atlases.js" defer></script>
+  <script src="wood-body.js" defer></script>
+  <script src="bare-body.js" defer></script>
+  <script src="bare-neck.js" defer></script>
+  <script src="wood-head.js" defer></script>
+  <script src="kitten-head.js" defer></script>
+  <script src="coat-coordinates.js" defer></script>
+  <script src="coat-pattern.js" defer></script>
+  <script src="fur-length.js" defer></script>
+  <script src="iris.js" defer></script>
+  <script src="pigment.js" defer></script>
+  <script src="brows.js" defer></script>
+  <script src="model.js" defer></script>
+  <script src="viewer.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="cat" viewBox="0 0 32 32"><path d="M4.8 18.2 5.7 6l8.1 5a16 16 0 0 1 5 0L26.4 6l.8 12.3c.3 5.2-4.4 8.3-11.2 8.3S4.5 23.4 4.8 18.2Z"/><path d="m10.1 17 1.6 1 1.4-.9m6.1 0 1.4.9 1.6-1m-7.3 4 1.2 1 1.2-1"/></symbol>
+    <symbol id="rotate" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 .9 7M4 4v6h6"/></symbol>
+    <symbol id="dice" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M8 8h.01M16 8h.01M12 12h.01M8 16h.01M16 16h.01" stroke-width="3"/></symbol>
+    <symbol id="tune" viewBox="0 0 24 24"><path d="M4 6h8m4 0h4M4 12h2m4 0h10M4 18h10m4 0h2"/><circle cx="14" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="18" r="2"/></symbol>
+    <symbol id="cube" viewBox="0 0 24 24"><path d="m12 2.8 8.1 4.6v9.2L12 21.2l-8.1-4.6V7.4L12 2.8Zm-8 4.7L12 12l8-4.5M12 12v9"/></symbol>
+    <symbol id="orbit" viewBox="0 0 24 24"><path d="M6 8c4.8-1.8 12.4-1.2 14.2 1.7 1.7 3-3.2 6.6-9.6 6.6-3.8 0-7.1-1.3-7.4-3.5M6 4.9 3 8.6l4.5 1.8"/><circle cx="12" cy="11.8" r="1.5"/></symbol>
+    <symbol id="grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M12 4v16M4 12h16"/></symbol>
+  </svg>
+  <header class="topbar"><div class="frame brand-bar">
+    <div class="brand"><span class="brand-icon"><svg><use href="#cat"/></svg></span><strong>深空猫舍</strong></div>
+  </div></header>
+  <main class="frame">
+    <div class="intro">
+      <div><h1>猫咪外观实验室</h1><p>组合毛长、瞳色和花纹，查看同一只猫在幼年和成年时的模样。</p></div>
+      <div class="actions">
+        <select id="model-edition" aria-label="模型版本" data-current="front">
+          <option value="front">正面版</option><option value="rotation">多视角试版</option>
+        </select>
+        <button id="reset"><svg><use href="#rotate"/></svg>恢复默认</button>
+        <button id="random" class="primary"><svg><use href="#dice"/></svg>随机外观</button>
+      </div>
+    </div>
+    <div class="workspace">
+      <section class="preview panel" aria-labelledby="preview-title">
+        <div class="panel-head"><h2 id="preview-title"><svg><use href="#cube"/></svg>彩绘木雕模型</h2>
+          <div class="preview-options"><button id="compare" aria-pressed="false">同场对照</button><div class="segmented" aria-label="当前调节的生长阶段" role="group">
+            <button data-age="adult" aria-pressed="true">成猫</button><button data-age="kitten" aria-pressed="false">幼猫</button>
+          </div></div>
+        </div>
+        <div class="studio">
+          <canvas id="model-canvas" aria-label="猫咪三维模型，拖动可旋转，也可用左右方向键旋转" tabindex="0"></canvas>
+          <div class="material-options" role="group" aria-label="模型材质"><button data-material="coat" aria-pressed="true">外观</button><button data-material="clay" aria-pressed="false">灰模</button></div>
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="render-message" role="status" id="render-message">正在准备模型…</div>
+        </div>
+        <div class="stage-tools">
+          <span class="drag-hint"><svg><use href="#orbit"/></svg>拖动旋转</span>
+          <div class="camera-options" aria-label="查看角度" role="group">
+            <button data-view="fixed" aria-pressed="true">斜前</button><button data-view="front" aria-pressed="false">正面</button><button data-view="side" aria-pressed="false">侧面</button>
+          </div>
+        </div>
+        <div class="inventory">
+          <div class="inventory-copy"><h3><svg><use href="#grid"/></svg>格内预览</h3><p id="inventory-view">正面 · 固定视角</p></div>
+          <span class="occupation" id="occupation">坐姿 <b>2 × 4</b> 格</span>
+          <canvas id="icon-canvas" aria-label="固定视角物品栏预览"></canvas>
+        </div>
+      </section>
+      <section class="controls panel" aria-labelledby="controls-title">
+        <div class="panel-head"><h2 id="controls-title"><svg><use href="#tune"/></svg>基因表达</h2></div>
+        <div class="controls-inner">
+          <div class="control-tabs" role="group" aria-label="调节项目"><button data-group="features" aria-pressed="true">毛长与配色</button><button data-group="coat" aria-pressed="false">毛色与花纹</button><button data-group="shape" aria-pressed="false">体型与五官</button></div>
+          <div id="sliders"></div>
+        </div>
+      </section>
+    </div>
+    <noscript>请启用 JavaScript 来操作模型。</noscript>
+  </main>
+</body>
+</html>

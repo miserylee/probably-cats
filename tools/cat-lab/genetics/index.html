@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3eb">
+  <link rel="icon" href="data:,">
+  <title>百代遗传图谱 · 深空猫舍</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="../vendor/three.min.js" defer></script>
+  <script src="../art/atlases.js" defer></script>
+  <script src="../wood-body.js" defer></script>
+  <script src="../bare-body.js" defer></script>
+  <script src="../bare-neck.js" defer></script>
+  <script src="../wood-head.js" defer></script>
+  <script src="../kitten-head.js" defer></script>
+  <script src="../coat-coordinates.js" defer></script>
+  <script src="../coat-pattern.js" defer></script>
+  <script src="../fur-length.js" defer></script>
+  <script src="../iris.js" defer></script>
+  <script src="../pigment.js" defer></script>
+  <script src="../brows.js" defer></script>
+  <script src="../model.js" defer></script>
+  <script src="../viewer.js" defer></script>
+  <script src="previews.js" defer></script>
+  <script src="study.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap brand"><a href="../index.html">深空猫舍</a><span>遗传图谱</span></div>
+  </header>
+  <main class="wrap">
+    <div class="heading">
+      <div>
+        <h1>一条藤，<span id="run-length">100</span> 代</h1>
+        <p id="run-preset"></p>
+      </div>
+      <dl class="lineage-stats" aria-label="主藤毛色统计">
+        <div><dt>纯白</dt><dd id="white-count">—</dd></div>
+        <div><dt>奶油底毛</dt><dd id="cream-count">—</dd></div>
+      </dl>
+    </div>
+    <p id="study-error" class="error" role="alert" hidden>这次遗传图谱的数据未加载。</p>
+    <section class="graph-shell" id="study" aria-label="百代遗传图谱" hidden>
+      <div class="toolbar">
+        <div class="toolbar-group generation-controls">
+          <label for="generation-number">定位世代</label>
+          <input type="number" id="generation-number" min="0" max="100" value="0" inputmode="numeric">
+          <button type="button" id="previous" aria-label="上一代">←</button>
+          <button type="button" id="next" aria-label="下一代">→</button>
+        </div>
+        <div class="toolbar-group" aria-label="缩放画布">
+          <button type="button" id="zoom-out" aria-label="缩小">−</button>
+          <output id="zoom-value" aria-label="缩放比例">100%</output>
+          <button type="button" id="zoom-in" aria-label="放大">+</button>
+          <button type="button" id="fit" aria-pressed="false">总览</button>
+          <button type="button" id="fullscreen" aria-pressed="false">全屏</button>
+        </div>
+      </div>
+      <div class="workspace">
+        <div id="viewport" class="viewport" tabindex="0" role="region" aria-label="连续亲子画布，可拖动，滚轮缩放，方向键移动">
+          <div id="world" class="world">
+            <svg id="edges" class="edges" aria-hidden="true"></svg>
+            <div id="nodes"></div>
+          </div>
+        </div>
+        <p class="line-key" id="line-key"><span>连续主藤</span><span>外配亲本</span></p>
+        <aside class="detail-panel" id="detail-panel" aria-labelledby="inspector-title" hidden>
+          <div class="section-heading">
+            <div><h2 id="inspector-title">基因与性状</h2><p id="inspector-mode">悬停预览</p></div>
+            <button type="button" class="close" id="close-detail" aria-label="关闭详情">×</button>
+          </div>
+          <div id="inspector"></div>
+        </aside>
+        <p id="preview-status" class="preview-status" role="status" hidden></p>
+      </div>
+      <div class="navigator">
+        <label for="timeline">全代路线</label>
+        <div class="timeline-control">
+          <div id="timeline-track" class="timeline-track" aria-hidden="true"></div>
+          <input type="range" id="timeline" aria-label="世代导航" min="0" max="100" value="0">
+          <div class="ticks" id="timeline-ticks" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+    <p class="run-notes" id="run-notes"></p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Manifest>
+  <ID>deep_space_cattery</ID>
+  <Name>深空猫舍</Name>
+  <Author>深空猫舍</Author>
+  <ModVersion>0.2.62</ModVersion>
+  <Description>在猫舍自然繁育，双击猫看性状和三代家谱。用金属锭扩建猫窝，用韧棉织物建造与扩建繁育间，用电池驱动猫毛加工器收毛制布。</Description>
+  <GameVersions>
+    <Version>0.46D</Version>
+  </GameVersions>
+  <Prerequisites />
+  <Assemblies>
+    <Assembly>DeepSpaceCattery.dll</Assembly>
+  </Assemblies>
+  <Capabilities />
+</Manifest>
